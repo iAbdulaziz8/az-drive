@@ -36,7 +36,7 @@ jobs:
           gradle-version: '8.9'
 
       - name: Extract project
-        run: unzip AZ_Drive_Android_Project.zip
+        run: unzip AZ_Drive_Project_v0.2.0.zip
 
       - name: Build APK
         working-directory: az_drive
