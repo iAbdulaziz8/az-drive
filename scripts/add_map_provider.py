@@ -47,7 +47,7 @@ methods = '''    private String providerLabel() {
             map.setBackgroundColor(PANEL);
             map.getSettings().setJavaScriptEnabled(true);
             map.setWebViewClient(new WebViewClient());
-            String html = "<html><meta name='viewport' content='width=device-width,initial-scale=1,user-scalable=no'><body style='margin:0;height:100%;background:#111a27'><iframe style='height:100%;width:100%;border:0' src='https://www.openstreetmap.org/export/embed.html?bbox=46.60%2C24.65%2C46.73%2C24.78&layer=mapnik&marker=24.7136%2C24.7136'></iframe></body></html>";
+            String html = "<html><meta name='viewport' content='width=device-width,initial-scale=1,user-scalable=no'><body style='margin:0;height:100%;background:#111a27'><iframe style='height:100%;width:100%;border:0' src='https://www.openstreetmap.org/export/embed.html?bbox=46.60%2C24.65%2C46.73%2C24.78&layer=mapnik&marker=24.7136%2C46.6753'></iframe></body></html>";
             map.loadDataWithBaseURL("https://www.openstreetmap.org", html, "text/html", "UTF-8", null);
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(-1, 0, 1);
             lp.setMargins(0, dp(8), 0, dp(6));
