@@ -5,7 +5,8 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - 'AZ_Drive_Android_Project.zip'
+      - 'AZ_Drive_Project_v0.2.0.zip'
+      - 'scripts/add_map_provider.py'
       - '.github/workflows/build.yml'
 
 jobs:
@@ -37,6 +38,9 @@ jobs:
 
       - name: Extract project
         run: unzip AZ_Drive_Project_v0.2.0.zip
+
+      - name: Apply map provider update
+        run: python3 scripts/add_map_provider.py
 
       - name: Build APK
         working-directory: az_drive
