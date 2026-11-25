@@ -81,6 +81,83 @@ body:not(.light) .card[data-card]{background:rgba(8,23,46,.91)}
 .timecard[data-clock-style="analog"]{grid-template-columns:1fr}
 .timecard[data-clock-style="digital"]{grid-template-columns:1fr}
 .timecard[data-clock-style="split"]{grid-template-columns:1fr 36%}
+
+/* ===== AZ DRIVE / REFERENCE MATCH PASS ===== */
+:root{--a:#18aaff;--line:rgba(118,195,255,.68);--p:rgba(8,24,52,.55);--txt:#f4f9ff;--muted:#b8cce5;--glow:0 8px 32px rgba(0,0,0,.28)}
+html,body{width:100%;height:100%;overflow:hidden;background:#061a3c url('riyadh-night.svg') center bottom/100% 39% no-repeat!important;color:#f4f9ff}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;background:linear-gradient(180deg,rgba(2,16,43,.12) 0%,rgba(3,18,45,.12) 56%,rgba(3,16,38,.32) 100%)}
+.brand,.app,#customizeFab,#cardEditor{z-index:1}
+.brand{top:1.2vh;left:2vw;font-size:clamp(20px,2.15vw,34px);letter-spacing:-.5px;color:#f5fbff;text-shadow:0 2px 12px #001b44}
+.brand b,.logo{color:#23baff}
+.app{position:relative;direction:ltr!important;grid-template-columns:6.2% minmax(0,1fr)!important;grid-template-rows:100%;gap:.8vw;padding:1.2vh 1.1vw;height:100dvh}
+.rail,.main{direction:rtl;margin-top:5.2vh;height:93vh}
+.rail{background:linear-gradient(180deg,rgba(11,39,82,.72),rgba(4,20,47,.64));border:1px solid rgba(115,191,255,.38);border-radius:24px;box-shadow:inset 0 1px 0 #ffffff22,0 12px 35px #00112c88;backdrop-filter:blur(20px);padding:.9vh .3vw}
+.logo{font-size:clamp(22px,2vw,32px);text-shadow:0 0 18px #1dafff66}
+.logo small{color:#d9efff}
+.nav{justify-content:space-evenly;gap:.5vh}
+.nav button{min-height:10vh;color:#e9f5ff;font-size:clamp(10px,.88vw,14px);font-weight:600;border:1px solid transparent;border-radius:16px;transition:.2s}
+.nav .ico{font-size:clamp(22px,2vw,32px);color:#e7f7ff;text-shadow:0 0 12px #39baff66}
+.nav .active{background:linear-gradient(145deg,rgba(36,160,255,.5),rgba(9,76,157,.3));border:1px solid #57c7ff;box-shadow:inset 0 0 22px #34baff33,0 0 18px #139bff33}
+.main{min-width:0;display:flex;flex-direction:column;gap:.7vh}
+.status{height:4.2vh;flex:0 0 4.2vh;padding:0 .7vw;color:#d6eaff;font-size:clamp(11px,.9vw,14px)}
+.status button{background:rgba(8,39,81,.58);border:1px solid #65bfff66;color:#e9f7ff;border-radius:50%;width:34px;height:34px}
+.dashboard{direction:ltr!important;flex:1;min-height:0;display:grid!important;grid-template-columns:29% 35% minmax(0,1fr)!important;grid-template-rows:minmax(0,56%) minmax(0,44%)!important;gap:.8vw}
+.dashboard>.mapcard{grid-column:1;grid-row:1/3;direction:rtl}
+.dashboard>.middle{display:contents}
+.dashboard>.middle>.timecard{grid-column:2;grid-row:1;direction:rtl}
+.dashboard>.middle>.weather{grid-column:3;grid-row:2;direction:rtl}
+.dashboard>.right{display:contents}
+.dashboard>.right>.prayer{grid-column:3;grid-row:1;direction:rtl}
+.dashboard>.right>.media{grid-column:2;grid-row:2;direction:rtl}
+.card{background:linear-gradient(145deg,rgba(19,53,100,.58),rgba(5,24,57,.5))!important;border:1px solid rgba(129,202,255,.65)!important;border-radius:22px!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.23),inset 0 0 24px rgba(85,169,255,.07),0 12px 30px rgba(0,8,30,.24)!important;backdrop-filter:blur(22px) saturate(145%);-webkit-backdrop-filter:blur(22px) saturate(145%);padding:1.05vh .9vw!important;min-width:0;min-height:0}
+.title{font-size:clamp(15px,1.15vw,19px)!important;color:#f4f9ff;font-weight:700}
+.muted{color:#bdd1e8!important}
+.mapcard{gap:.8vh!important}
+.mapmock{border:1px solid rgba(127,202,255,.45);border-radius:19px!important;background:linear-gradient(145deg,rgba(6,27,60,.7),rgba(8,35,72,.5))!important;box-shadow:inset 0 0 40px #0a6dc422}
+.maptag{background:rgba(4,24,54,.76)!important;border:1px solid #6ecbff!important;color:#f2f9ff;backdrop-filter:blur(12px)}
+.actions button{height:4.2vh;border-radius:14px;background:rgba(12,49,94,.7);border:1px solid #72c8ff77;color:#eff8ff;font-weight:600}
+.actions .primary{background:linear-gradient(110deg,#087ce8,#29b7ff)!important;border:0!important;box-shadow:0 4px 18px #008dff55}
+.timecard{height:auto!important;display:grid;grid-template-columns:1fr 36%;align-items:center;position:relative}
+.date{font-size:clamp(17px,1.35vw,23px)!important;color:#f1f8ff!important;font-weight:700}
+.hijri{font-size:clamp(14px,1.05vw,18px)!important;color:#c9ddf3!important}
+.clock{font-size:clamp(55px,5vw,82px)!important;color:#fff;text-shadow:0 5px 20px #001333;font-weight:800;letter-spacing:-2px}
+.analog{width:min(100%,10vw)!important;background:linear-gradient(145deg,rgba(9,38,83,.96),rgba(4,19,48,.95))!important;border:3px solid #28b9ff!important;box-shadow:0 0 24px #149dff55,inset 0 0 18px #139cff22!important;color:#f5fbff}
+.hand{background:#f5fbff!important}.pin{background:#2bc4ff!important}
+.weather{height:auto!important;gap:.7vh!important}
+.weatherMain{gap:1vw}
+.wicon{font-size:clamp(46px,4.6vw,72px)!important;filter:drop-shadow(0 4px 12px #f7c45c33)}
+.temp{font-size:clamp(48px,4.4vw,74px)!important;color:#fff;text-shadow:0 3px 18px #001c42}
+.weather .muted{font-size:clamp(13px,1vw,16px)!important}
+.wside{font-size:clamp(14px,1vw,17px)!important;line-height:1.9}
+.stats{border-top:1px solid rgba(132,202,255,.45)!important;font-size:clamp(12px,.9vw,15px)!important;color:#d0e3f7!important;padding-top:.8vh}
+.stats b{font-size:clamp(15px,1.15vw,19px);color:#f6fbff}
+.prayer{display:flex;flex-direction:column;min-height:0}
+.rows{gap:.45vh!important;margin-top:.8vh!important;min-height:0;overflow:hidden}
+.pray{flex:1;min-height:0;display:flex;align-items:center;padding:.65vh .85vw!important;border:1px solid rgba(130,196,255,.16);border-radius:13px!important;background:rgba(9,37,78,.68)!important;color:#f0f7ff!important;font-size:clamp(15px,1.2vw,20px)!important;font-weight:600}
+.pray .tm{font-size:clamp(16px,1.3vw,21px)!important}
+.pray.current{background:linear-gradient(100deg,#0784ed,#16b6ff)!important;border-color:#6fd4ff!important;box-shadow:0 3px 15px #058fff55}
+.next{display:block!important;flex:0 0 auto!important;min-height:7vh!important;margin-top:.65vh;border:1px solid rgba(117,197,255,.55)!important;border-radius:15px!important;background:rgba(6,34,73,.78)!important;color:#d9edff;font-size:clamp(13px,1vw,16px)!important;padding:.55vh!important}
+.count{font-size:clamp(27px,2.4vw,39px)!important;color:#fff}
+.media{display:flex;flex-direction:column;gap:.6vh}
+.track{min-height:0;gap:1vw}
+.cover{width:29%;height:88%;border-radius:16px!important;background:linear-gradient(145deg,#1d9bff,#0b3974 48%,#041a3d)!important;border:1px solid #70caff88;box-shadow:0 8px 22px #001b43aa}
+.media .track b{font-size:clamp(17px,1.4vw,23px)}
+.mediaBtns button{color:#eaf7ff!important;font-size:clamp(20px,1.55vw,26px)!important}
+.mediaBtns .play{background:linear-gradient(145deg,#1eb6ff,#0871dd)!important;color:white!important;border:2px solid #8cddff!important;box-shadow:0 0 18px #078fff66}
+.shortcuts{height:11.5vh!important;min-height:60px!important;flex:0 0 11.5vh;display:flex;align-items:center;gap:.65vw;background:linear-gradient(110deg,rgba(7,32,70,.82),rgba(9,44,87,.65))!important;border:1px solid rgba(130,200,255,.62)!important;border-radius:22px!important;backdrop-filter:blur(22px);padding:.7vh 1vw!important}
+.shortTitle{font-size:clamp(15px,1.1vw,19px);color:#f5faff}
+.shortcut{height:82%!important;width:clamp(44px,4.5vw,72px)!important;border-radius:17px!important;background:linear-gradient(145deg,rgba(255,255,255,.96),rgba(218,239,255,.92))!important;border:1px solid rgba(125,207,255,.9)!important;color:#0a5da9!important;font-size:clamp(21px,2.1vw,34px)!important;box-shadow:0 6px 18px #001b3b66}
+.shortcut.add{background:rgba(8,48,92,.78)!important;color:#40c8ff!important;font-size:36px!important}
+#customizeFab{background:linear-gradient(145deg,#18b6ff,#0871d9)!important;border:1px solid #a2e5ff!important;box-shadow:0 0 22px #078dff66}
+.settings{background:linear-gradient(145deg,rgba(9,34,72,.97),rgba(3,17,42,.97))!important;color:#f3f9ff!important;border:1px solid #72caff!important;backdrop-filter:blur(28px) saturate(150%)}
+.settings button{color:#eff8ff!important;background:rgba(18,57,102,.72)!important;border:1px solid #75bfff55}
+.settings .selected{background:linear-gradient(120deg,#087be7,#1bbaff)!important}
+.settings .save,.settings .primary{background:linear-gradient(120deg,#087be7,#21b5ff)!important}
+.editorBox{background:linear-gradient(145deg,#0a2a54,#061a39)!important;color:#f4faff!important;border:1px solid #69caff!important}
+.editorBox input,.editorBox select{background:#0d315d!important;color:white!important;border-color:#5daee9!important}
+body.light{background:#e8f2ff!important}
+body.light .card{background:rgba(244,250,255,.76)!important;color:#102f53}
+@media(max-width:1100px){.dashboard{grid-template-columns:28% 34% minmax(0,1fr)!important}}
 </style></head><body><div class="brand"><b>AZ</b> Drive</div><div class="app">
 <aside class="rail"><div class="logo">AZ<small>Drive</small></div><nav class="nav"><button class="active" onclick="navTo('home',this)"><span class="ico">⌂</span>الرئيسية</button><button onclick="navTo('map',this)"><span class="ico">➤</span>الملاحة</button><button onclick="openMedia()"><span class="ico">♫</span>الوسائط</button><button onclick="AZ.showApps()"><span class="ico">▦</span>التطبيقات</button><button onclick="toggleSettings()"><span class="ico">⚙</span>الإعدادات</button><button onclick="AZ.openApp('com.android.car.settings')"><span class="ico">▱</span>السيارة</button></nav></aside>
 <main class="main"><div class="status"><span>AZ Drive</span><span class="muted">لوحة القيادة</span><span class="spacer"></span><span id="device">AZ Drive</span><button onclick="toggleSettings()">⚙</button><button onclick="openCardEditor()">تحرير البطاقات</button></div>
