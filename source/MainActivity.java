@@ -28,19 +28,27 @@ public class MainActivity extends Activity {
   }
   public class Bridge {
     @JavascriptInterface public void openApp(String pkg) { runOnUiThread(()->launch(pkg)); }
-    @JavascriptInterface public void showApps() { runOnUiThread(()->apps()); }
+    @JavascriptInterface public void showApps() { runOnUiThread(()->apps(false)); }
+    @JavascriptInterface public void chooseApp() { runOnUiThread(()->apps(true)); }
     @JavascriptInterface public void toast(String msg) { runOnUiThread(()->Toast.makeText(MainActivity.this,msg,Toast.LENGTH_SHORT).show()); }
     @JavascriptInterface public String getDeviceName() { return android.os.Build.MODEL; }
   }
   private void launch(String pkg) {
-    try { Intent i=getPackageManager().getLaunchIntentForPackage(pkg); if(i!=null) startActivity(i); else apps(); }
-    catch(Exception e){ apps(); }
+    try { Intent i=getPackageManager().getLaunchIntentForPackage(pkg); if(i!=null) startActivity(i); else apps(false); }
+    catch(Exception e){ apps(false); }
   }
-  private void apps() {
+  private void apps(boolean choose) {
     List<ResolveInfo> list=getPackageManager().queryIntentActivities(new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER),0);
     Collections.sort(list,(a,b)->a.loadLabel(getPackageManager()).toString().compareToIgnoreCase(b.loadLabel(getPackageManager()).toString()));
     String[] names=new String[list.size()]; for(int i=0;i<list.size();i++) names[i]=list.get(i).loadLabel(getPackageManager()).toString();
-    new AlertDialog.Builder(this).setTitle("التطبيقات المثبتة").setItems(names,(d,n)->{Intent i=getPackageManager().getLaunchIntentForPackage(list.get(n).activityInfo.packageName);if(i!=null)startActivity(i);}).setNegativeButton("إغلاق",null).show();
+    new AlertDialog.Builder(this).setTitle(choose?"إضافة تطبيق للاختصارات":"التطبيقات المثبتة").setItems(names,(d,n)->{
+      ResolveInfo selected=list.get(n); String pkg=selected.activityInfo.packageName;
+      if(choose) {
+        String label=selected.loadLabel(getPackageManager()).toString().replace("\\","\\\\").replace("'","\\'");
+        web.evaluateJavascript("onAppChosen('"+pkg+"','"+label+"')",null);
+        Toast.makeText(this,"تمت إضافة الاختصار",Toast.LENGTH_SHORT).show();
+      } else { Intent i=getPackageManager().getLaunchIntentForPackage(pkg);if(i!=null)startActivity(i); }
+    }).setNegativeButton("إغلاق",null).show();
   }
   @Override public void onBackPressed(){ super.onBackPressed(); }
   @Override protected void onDestroy(){ if(web!=null)web.destroy(); super.onDestroy(); }
