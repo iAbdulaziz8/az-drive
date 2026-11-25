@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - 'AZ_Drive_Android_Project.zip'
+      - 'AZ_Drive_Project_v0.2.0.zip'
       - '.github/workflows/build.yml'
 
 jobs:
