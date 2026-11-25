@@ -8,6 +8,7 @@ on:
       - 'AZ_Drive_Project_v0.2.0.zip'
       - 'scripts/add_map_provider.py'
       - 'source/MainActivity.java'
+      - 'source/assets/index.html'
       - '.github/workflows/build.yml'
 
 jobs:
@@ -42,6 +43,9 @@ jobs:
 
       - name: Install updated dashboard source
         run: cp source/MainActivity.java az_drive/app/src/main/java/com/azdrive/launcher/MainActivity.java
+
+      - name: Install dashboard assets
+        run: mkdir -p az_drive/app/src/main/assets && cp -r source/assets/. az_drive/app/src/main/assets/
 
       - name: Build APK
         working-directory: az_drive
