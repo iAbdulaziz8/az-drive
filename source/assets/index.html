@@ -44,6 +44,27 @@ body:not(.light) .settings button{color:#eef7ff}
 body:not(.light) .editorBox{background:#0b2342;color:#f3f8ff;border-color:#287fca}
 body:not(.light) .editorBox input,body:not(.light) .editorBox select{background:#132f52;color:#fff;border-color:#376b9d}
 .card[data-card] .title{font-size:var(--card-font,inherit)}
+
+/* Layout correction: dashboard reads left-to-right while Arabic text stays RTL */
+.app{direction:ltr;grid-template-columns:5.8% minmax(0,1fr)!important}
+.rail,.main,.settings,.card,.editorBox{direction:rtl}
+.dashboard{direction:ltr;grid-template-columns:29% 35% minmax(0,1fr)!important}
+.dashboard>.card{direction:rtl}
+.main{min-width:0}
+.pray{font-size:clamp(15px,1.35vw,22px)!important;padding:.65vh .8vw!important;min-height:3.2vh}
+.title{font-size:clamp(15px,1.25vw,20px)!important}
+.date{font-size:clamp(16px,1.35vw,22px)!important;color:var(--txt)!important;font-weight:600}
+.hijri{font-size:clamp(13px,1.05vw,17px)!important;color:var(--muted)!important}
+.timecard .clock{font-size:clamp(48px,5.3vw,86px)!important}
+.weather .temp{font-size:clamp(42px,4.5vw,72px)!important}
+.weather .muted,.stats{font-size:clamp(12px,.95vw,16px)!important}
+.card[data-card]{font-size:var(--card-font,16px)}
+.card[data-card] .title,.card[data-card] .date,.card[data-card] .hijri,.card[data-card] .pray,.card[data-card] .muted,.card[data-card] .stats{font-size:calc(var(--card-font,16px)*.88)!important}
+.card[data-card] .clock{font-size:calc(var(--card-font,16px)*3.2)!important}
+.card[data-card] .temp{font-size:calc(var(--card-font,16px)*2.8)!important}
+body.light .card[data-card]{background:rgba(248,252,255,.92)}
+body:not(.light) .card[data-card]{background:rgba(8,23,46,.91)}
+#cardEditor .editorField input[type=color]{height:38px;padding:2px}
 </style></head><body><div class="brand"><b>AZ</b> Drive</div><div class="app">
 <aside class="rail"><div class="logo">AZ<small>Drive</small></div><nav class="nav"><button class="active" onclick="navTo('home',this)"><span class="ico">⌂</span>الرئيسية</button><button onclick="navTo('map',this)"><span class="ico">➤</span>الملاحة</button><button onclick="openMedia()"><span class="ico">♫</span>الوسائط</button><button onclick="AZ.showApps()"><span class="ico">▦</span>التطبيقات</button><button onclick="toggleSettings()"><span class="ico">⚙</span>الإعدادات</button><button onclick="AZ.openApp('com.android.car.settings')"><span class="ico">▱</span>السيارة</button></nav></aside>
 <main class="main"><div class="status"><span>AZ Drive</span><span class="muted">لوحة القيادة</span><span class="spacer"></span><span id="device">AZ Drive</span><button onclick="toggleSettings()">⚙</button><button onclick="openCardEditor()">تحرير البطاقات</button></div>
@@ -96,13 +117,13 @@ const cardDefaults={map:{title:'الملاحة'},clock:{title:''},weather:{title
 function cardEl(id){return document.querySelector('[data-card="'+id+'"]')}
 function openCardEditor(){ $('cardEditor').classList.add('open');loadCardEditor(); }
 function closeCardEditor(){ $('cardEditor').classList.remove('open');document.querySelectorAll('.is-edit-target').forEach(x=>x.classList.remove('is-edit-target')); }
-function loadCardEditor(){let id=$('edCard').value,el=cardEl(id),d=JSON.parse(localStorage.getItem('azCard_'+id)||'{}');document.querySelectorAll('.is-edit-target').forEach(x=>x.classList.remove('is-edit-target'));if(el)el.classList.add('is-edit-target');$('edTitle').value=d.title??(cardDefaults[id]?.title||'');$('edFont').value=d.font||16;$('edScale').value=d.scale||100;$('edOpacity').value=d.opacity||88;$('edColor').value=d.color||'#ffffff';}
-function applyCardEditor(){let id=$('edCard').value,el=cardEl(id);if(!el)return;let d={title:$('edTitle').value,font:+$('edFont').value,scale:+$('edScale').value,opacity:+$('edOpacity').value,color:$('edColor').value,hidden:el.dataset.userHidden==='1'};el.style.setProperty('--card-font',d.font+'px');el.style.transform='scale('+d.scale/100+')';el.style.backgroundColor=hexRgba(d.color,d.opacity/100);el.style.transformOrigin='center';let title=el.querySelector('.title span:first-child');if(title&&id!=='clock'&&d.title)title.textContent=d.title;localStorage.setItem('azCard_'+id,JSON.stringify(d));}
+function loadCardEditor(){let id=$('edCard').value,el=cardEl(id),d=JSON.parse(localStorage.getItem('azCard_'+id)||'{}');document.querySelectorAll('.is-edit-target').forEach(x=>x.classList.remove('is-edit-target'));if(el)el.classList.add('is-edit-target');$('edTitle').value=d.title??(cardDefaults[id]?.title||'');$('edFont').value=d.font||18;$('edScale').value=d.scale||100;$('edOpacity').value=d.opacity||100;$('edColor').value=d.color||'#168cff';}
+function applyCardEditor(){let id=$('edCard').value,el=cardEl(id);if(!el)return;let d={title:$('edTitle').value,font:+$('edFont').value,scale:+$('edScale').value,opacity:+$('edOpacity').value,color:$('edColor').value,hidden:el.dataset.userHidden==='1'};el.style.setProperty('--card-font',d.font+'px');el.style.setProperty('--card-accent',d.color);el.style.transform='scale('+d.scale/100+')';el.style.transformOrigin='center';el.style.opacity=d.opacity/100;let title=el.querySelector('.title span:first-child');if(title&&id!=='clock'&&d.title)title.textContent=d.title;localStorage.setItem('azCard_'+id,JSON.stringify(d));}
 function hexRgba(hex,a){let n=parseInt(hex.slice(1),16);return 'rgba('+(n>>16)+','+((n>>8)&255)+','+(n&255)+','+a+')'}
 function toggleCardVisibility(){let id=$('edCard').value,el=cardEl(id);if(!el)return;let hide=el.dataset.userHidden!=='1';el.dataset.userHidden=hide?'1':'0';el.style.display=hide?'none':'';let d=JSON.parse(localStorage.getItem('azCard_'+id)||'{}');d.hidden=hide;localStorage.setItem('azCard_'+id,JSON.stringify(d))}
 function moveCard(dir){let id=$('edCard').value,el=cardEl(id);if(!el||!el.parentElement)return;let p=el.parentElement,items=[...p.children].filter(x=>x.matches('[data-card]')),i=items.indexOf(el),j=i+dir;if(j<0||j>=items.length)return;if(dir<0)p.insertBefore(el,items[j]);else p.insertBefore(items[j],el);saveCardOrder(p)}
 function saveCardOrder(p){let ids=[...p.children].filter(x=>x.matches('[data-card]')).map(x=>x.dataset.card);localStorage.setItem('azOrder_'+(p.className||'cards'),JSON.stringify(ids))}
-function restoreCardSettings(){document.querySelectorAll('[data-card]').forEach(el=>{let id=el.dataset.card,d=JSON.parse(localStorage.getItem('azCard_'+id)||'{}');if(d.hidden){el.dataset.userHidden='1';el.style.display='none'}if(d.font)el.style.setProperty('--card-font',d.font+'px');if(d.scale)el.style.transform='scale('+d.scale/100+')';if(d.opacity&&d.color)el.style.backgroundColor=hexRgba(d.color,d.opacity/100);let title=el.querySelector('.title span:first-child');if(title&&d.title)title.textContent=d.title})}
+function restoreCardSettings(){document.querySelectorAll('[data-card]').forEach(el=>{let id=el.dataset.card,d=JSON.parse(localStorage.getItem('azCard_'+id)||'{}');if(d.hidden){el.dataset.userHidden='1';el.style.display='none'}if(d.font)el.style.setProperty('--card-font',d.font+'px');if(d.scale)el.style.transform='scale('+d.scale/100+')';if(d.opacity)el.style.opacity=d.opacity/100;if(d.color)el.style.setProperty('--card-accent',d.color);let title=el.querySelector('.title span:first-child');if(title&&d.title)title.textContent=d.title})}
 document.addEventListener('DOMContentLoaded',restoreCardSettings);restoreCardSettings();
 </script>
 </body></html>
