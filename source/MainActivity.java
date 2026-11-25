@@ -15,7 +15,6 @@ public class MainActivity extends Activity {
   @Override public void onCreate(Bundle b) {
     super.onCreate(b);
     getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-    hideSystemBars();
     getWindow().setStatusBarColor(Color.rgb(8,5,22));
     getWindow().setNavigationBarColor(Color.rgb(8,5,22));
     web = new WebView(this);
@@ -25,17 +24,21 @@ public class MainActivity extends Activity {
     web.setWebViewClient(new WebViewClient());
     web.addJavascriptInterface(new Bridge(), "AZ");
     setContentView(web);
+    web.post(() -> hideSystemBars());
     web.loadUrl("file:///android_asset/index.html");
   }
   private void hideSystemBars() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
       getWindow().setDecorFitsSystemWindows(false);
-      getWindow().getInsetsController().hide(
-        android.view.WindowInsets.Type.statusBars() | android.view.WindowInsets.Type.navigationBars()
-      );
-      getWindow().getInsetsController().setSystemBarsBehavior(
-        android.view.WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-      );
+      android.view.WindowInsetsController controller = getWindow().getInsetsController();
+      if (controller != null) {
+        controller.hide(
+          android.view.WindowInsets.Type.statusBars() | android.view.WindowInsets.Type.navigationBars()
+        );
+        controller.setSystemBarsBehavior(
+          android.view.WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        );
+      }
     } else {
       getWindow().getDecorView().setSystemUiVisibility(
         View.SYSTEM_UI_FLAG_FULLSCREEN |
