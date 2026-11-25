@@ -1,5 +1,6 @@
 
 name: Build AZ Drive APK
+# Rebuild after immersive-mode startup fix
 
 on:
   workflow_dispatch:
