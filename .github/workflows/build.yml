@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - 'AZ_Drive_Android_Project.zip'
+      - 'AZ_Drive_Project_v0.2.0.zip'
       - '.github/workflows/build.yml'
 
 jobs:
@@ -36,7 +36,15 @@ jobs:
           gradle-version: '8.9'
 
       - name: Extract project
-        run: unzip AZ_Drive_Project_v0.2.0.zip
+        run: |
+          set +e
+          unzip -o AZ_Drive_Project_v0.2.0.zip
+          unzip_status=$?
+          if [ "$unzip_status" -gt 1 ]; then
+            exit "$unzip_status"
+          fi
+          test -f az_drive/app/src/main/AndroidManifest.xml
+          test -f az_drive/app/src/main/assets/index.html
 
       - name: Build APK
         working-directory: az_drive
